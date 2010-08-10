@@ -1,5 +1,5 @@
 <?php
-// $Id: common.inc,v 1.1201 2010/08/05 08:36:08 webchick Exp $
+// $Id: common.inc,v 1.1204 2010/08/10 01:00:42 dries Exp $
 
 /**
  * @file
@@ -2049,7 +2049,7 @@ function url($path = NULL, array $options = array()) {
   // Allow other modules to alter the outbound URL and options.
   drupal_alter('url_outbound', $path, $options, $original_path);
 
-  if ($options['fragment']) {
+  if (isset($options['fragment']) && $options['fragment'] !== '') {
     $options['fragment'] = '#' . $options['fragment'];
   }
 
@@ -2785,7 +2785,7 @@ function drupal_add_css($data = NULL, $options = NULL) {
  * module styles through CSS selectors.
  *
  * Themes may replace module-defined CSS files by adding a stylesheet with the
- * same filename. For example, themes/garland/system-menus.css would replace
+ * same filename. For example, themes/bartik/system-menus.css would replace
  * modules/system/system-menus.css. This allows themes to override complete
  * CSS files, rather than specific selectors, when necessary.
  *
@@ -5955,6 +5955,12 @@ function drupal_write_record($table, &$record, $primary_keys = array()) {
       $serial = $field;
     }
 
+    // Skip field if it is in $primary_keys as it is unnecessary to update a
+    // field to the value it is already set to.
+    if (in_array($field, $primary_keys)) {
+      continue;
+    }
+
     if (!property_exists($object, $field)) {
       // Skip fields that are not provided, default values are already known 
       // by the database.
@@ -6086,7 +6092,7 @@ function drupal_write_record($table, &$record, $primary_keys = array()) {
  * - stylesheets: Theme stylesheets eg: stylesheets[all][] = my-style.css
  * - scripts: Theme scripts eg: scripts[] = my-script.css
  *
- * @see garland.info
+ * @see bartik.info
  *
  * @param $filename
  *   The file we are parsing. Accepts file with relative or absolute path.

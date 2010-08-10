@@ -1,5 +1,5 @@
 <?php
-// $Id: node.module,v 1.1284 2010/08/05 07:11:14 webchick Exp $
+// $Id: node.module,v 1.1286 2010/08/09 19:57:24 dries Exp $
 
 /**
  * @file
@@ -555,6 +555,9 @@ function node_type_save($info) {
  *   A node type object.
  * @param $label
  *   The label for the body instance.
+ *
+ * @return
+ *   Body field instance.
  */
 function node_add_body_field($type, $label = 'Body') {
    // Add or remove the body field, as needed.
@@ -588,8 +591,9 @@ function node_add_body_field($type, $label = 'Body') {
         ),
       ),
     );
-    field_create_instance($instance);
+    $instance = field_create_instance($instance);
   }
+  return $instance;
 }
 
 /**
@@ -2044,7 +2048,7 @@ function node_block_view($delta = '') {
   switch ($delta) {
     case 'syndicate':
       $block['subject'] = t('Syndicate');
-      $block['content'] = theme('feed_icon', array('url' => url('rss.xml'), 'title' => t('Syndicate')));
+      $block['content'] = theme('feed_icon', array('url' => 'rss.xml', 'title' => t('Syndicate')));
       break;
 
     case 'recent':
