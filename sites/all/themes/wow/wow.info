@@ -1,0 +1,17 @@
+name = WoW
+description = WoW fansite theme. 
+package = World of Warcraft
+core = 7.x
+engine = phptemplate
+
+stylesheets[all][] = css/reset.css
+stylesheets[all][] = css/text.css
+stylesheets[all][] = css/grid.css
+stylesheets[all][] = css/style.css
+;stylesheets[print][] = css/print.css
+
+regions[highlighted_right] = Highlighted right
+regions[content]           = Content
+regions[right]             = Right
+regions[bottom]            = Bottom
+regions[footer]            = Footer

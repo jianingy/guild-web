@@ -1,0 +1,102 @@
+body {
+  background: url("../images/bg2.jpg") #0D417A repeat-x fixed;
+  color: #FFF;
+  font-family: 微软雅黑,Microsoft YaHei,Helvetica,Tahoma,StSun,宋体,SimSun,sans-serif !important;
+  letter-spacing: 0 !important;
+}
+
+a {
+  color: #278EB3;
+  outline: none;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #2DADDA;
+  text-shadow: 0 0 6px #278EB3;
+}
+
+/* override Drupal default styles */
+ul.primary {
+  border: none;
+  margin: 0;
+  padding: 0;
+}
+ul.primary li {
+  margin: 0;
+}
+ul.primary li a {
+  
+}
+
+/* page-wrapper */
+#page-wrapper {
+  zoom: 1;
+  background: rgba(18, 33, 45, 0.8) none repeat scroll 0 0 !important; /*none-transparent text and transparent background for none-IE*/
+  filter:Alpha(opacity=80); background: #12212D;  /*transparent background for IE*/
+}
+#page-wrapper .container-12 {
+  position: relative;  /*none-transparent text for IE*/
+}
+
+/* header */
+#header {
+  height: 100px;
+}
+#site-name {
+  font-size: 2.2em;
+  padding: 20px 0 10px 0;
+}
+#primary-nav ul {
+  float: right;
+}
+
+/* highlighted */
+#highlighted {
+  border-top: 2px solid rgba(39, 142, 179, 0.2) !important;
+}
+#page-title {
+  color: #278EB3;
+  font-size: 3em;
+  font-weight: 400;
+  margin: 0;
+  padding: 30px 20px;
+}
+#tabs-wrapper {
+  display: inline-block;
+  padding: 0 20px 10px;
+}
+#messages-wrapper {
+  padding: 10px 20px;
+}
+#highlighted-right {
+  border-top: 1px solid rgba(39, 142, 179, 0.2) !important;
+}
+#highlighted-right .block {
+  padding: 30px 20px;
+}
+
+/* main */
+#main {
+}
+#main #tabs-wrapper {
+  padding: 10px 20px;
+}
+#main .node {
+  border-top: 1px solid rgba(39, 142, 179, 0.2) !important;
+  padding: 30px 20px;
+  font-size: 15px;
+  line-height: 1.8;
+}
+#main .node:hover {
+  background: rgba(0, 0, 0, 0.1) !important;
+}
+
+/* right */
+#right {
+}
+#right .block {
+  border-top: 1px solid rgba(39, 142, 179, 0.2) !important;
+  padding: 30px 20px;
+}
+
