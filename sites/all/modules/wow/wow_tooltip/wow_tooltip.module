@@ -1,0 +1,139 @@
+<?php
+
+function wow_tooltip_theme() {
+  return array(
+    'wow_tooltip_box' => array(
+      'variables' => array('content' => NULL),
+      'file' => 'wow_tooltip.theme.inc',
+    ),
+  );
+}
+
+function wow_tooltip_menu() {
+  $items = array();
+
+  $items['wow-tooltip/item/%wow_tooltip_item'] = array(
+    'title' => 'WoW Item Tooltip Entry',
+    'page callback' => 'wow_tooltip_item_ajax_load',
+    'page arguments' => array(2),
+    'access callback' => TRUE,
+    'file' => 'wow_tooltip.pages.inc',
+  );
+
+  return $items;
+}
+
+function wow_tooltip_item_load($id) {
+  $result = db_select('wow_tooltip_items', 'i')
+    ->fields('i')
+    ->condition("i.id", $id)
+    ->execute();
+
+  if ($row = $result->fetch()) {
+    return $row;
+  }
+  else {
+    return FALSE;
+  }
+}
+
+function wow_tooltip_init() {
+  $path = drupal_get_path('module', 'wow_tooltip');
+
+  drupal_add_css($path . '/wow_tooltip.css');
+
+  drupal_add_js($path . '/jquery.tools.min.js');
+  drupal_add_js($path . '/wow_tooltip.js');
+
+  drupal_add_js(array(
+    'WoWArmoryTooltip' => array(
+      'wrapper' => theme('wow_tooltip_box', array('content' => theme('image', array(
+        'path' => $path . '/images/ajax-loader.gif',
+      )))),
+    ),
+  ), array('type' => 'setting'));
+}
+
+/**
+ * Implementation of hook_filter_info().
+ */
+function wow_tooltip_filter_info() {
+  $filters['wow_tooltip_item'] = array(
+    'title' => t('WoW Armory Item Tooltip'),
+    'description' => t('Allows you to input WoW item name in contents and provides pop-up tooltip.'),
+    'process callback' => '_wow_tooltip_item_process',
+    'cache' => FALSE,
+  );
+
+  return $filters;
+}
+
+function _wow_tooltip_item_process($text, $filter, $format) {
+  $pattern = '/\[item\](.*)\[\/item\]/';
+  return preg_replace_callback($pattern, '_wow_tooltip_item_preg_replace_callback', $text);
+}
+
+function _wow_tooltip_item_preg_replace_callback($matches) {
+  if ($item = wow_tooltip_get_item_by_name($matches[1])) {
+
+    $wow_item_link = l("[{$item->name}]", 'wow-tooltip/item/' . $item->id, array(
+      'attributes' => array(
+        'class' => 'trigger',
+      ),
+    ));
+    
+    return '<span class="wow-tooltip">' . $wow_item_link . '</span>';
+  }
+
+  return "[{$matches[1]}]";
+}
+
+/**
+ * Help functions.
+ */
+
+function wow_tooltip_get_item_by_name($name) {
+  static $items = array();
+
+  if (!isset($items[$name])) {
+    $result = db_select('wow_tooltip_items', 'i')
+      ->fields('i')
+      ->condition("i.name", $name)
+      ->execute();
+
+    if ($row = $result->fetch()) {
+      $items[$name] = $row;
+    }
+    else {
+      // Not in database, try to load from WoW Armory.
+      try {
+        $client = module_invoke('wow_core', 'get_client');
+        if ($item_id = $client->get_item_id_by_name($name)) {
+          $item_tooltip = $client->get_item_tooltip_by_id($item_id);
+
+          // cache in database
+          if ($item_tooltip) {
+            $row = array(
+              'id'      => $item_id,
+              'name'    => $name,
+              'tooltip' => $item_tooltip,
+              'updated' => REQUEST_TIME,
+            );
+
+            db_insert('wow_tooltip_items')
+              ->fields($row)
+              ->execute();
+          }
+
+          $items[$name] = (object)($row);
+        }
+      }
+      catch (Exception $e) {
+        watchdog('WoW Armory', $e->getMessage());
+        return FALSE;
+      }
+    }
+  }
+
+  return $items[$name];
+}

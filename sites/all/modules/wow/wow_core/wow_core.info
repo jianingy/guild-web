@@ -1,0 +1,9 @@
+name = WoW Core 
+description = Base module for connecting your Drupal website and World of Warcraft Armory.
+package = World of Warcraft
+core = 7.x
+
+files[] = wow_core.module
+files[] = wow_core.admin.module
+files[] = iArmory.class.inc
+files[] = wow_core.install

@@ -1,0 +1,9 @@
+name = WoW Character Binder
+description = Bind your Drupal account with one or more World of Warcraft game character(s).
+package = World of Warcraft
+
+core = 7.x
+
+files[] = wow_char_binder.module
+
+dependencies[] = wow_core

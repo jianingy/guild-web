@@ -1,0 +1,42 @@
+<?php
+
+function wow_core_theme() {
+  return array(
+    'wow_portrait' => array(
+      'variables' => array('data' => NULL),
+      'file' => 'wow_core.theme.inc',
+    ),
+  );
+}
+
+function wow_core_menu() {
+  $items = array();
+
+  // Administration
+  $items['admin/config/wow/region-and-language'] = array(
+    'title' => 'Region and Language',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('wow_core_admin_region_and_lang_settings'),
+    'access arguments' => array('administer site configuration'),
+    'file' => 'wow_core.admin.inc',
+  );
+
+  return $items;
+}
+
+/**
+ * Help function to get a iArmory object.
+ */
+function wow_core_get_client() {
+  static $client = NULL;
+
+  if (is_null($client)) {
+    $region = variable_get('wow_core_region', 'www');
+    $armory = "http://$region.wowarmory.com";
+    $lang = variable_get('wow_core_lang', 'en_us');
+
+    $client = new iArmory($armory, $lang);
+  }
+
+  return $client;
+}

@@ -1,0 +1,48 @@
+<?php
+
+function wow_guild_entity_info() {
+  $entities = array(
+    'wow_guild' => array(
+      'label' => t('WoW Guild'),
+      'controller class' => 'WoWGuildController',
+      'base table' => 'wow_guild',
+      'uri callback' => 'wow_guild_uri',
+      'fieldable' => FALSE,
+      'entity keys' => array(
+        'id' => 'wgid',
+        'bundle' => 'leader',
+      ),
+      'bundle keys' => array(
+        'bundle' => 'leader'
+      ),
+      'bundles' => array(),
+      'view modes' => array(
+        'home' => array(
+          'label' => t('Guild Home'),
+          'custom settings' => FALSE,
+        ),
+      ),
+    ),
+  );
+
+  return $entities;
+}
+
+function wow_guild_theme() {
+  return array(
+    'wow_guild_name' => array(
+      'variables' => array('realm' => NULL, 'name' => NULL),
+      'file' => 'wow_guild.theme.inc',
+    ),
+  );
+}
+
+/**
+ * Controller class for WoW Guilds.
+ *
+ * This extends the DrupalDefaultEntityController class, adding required
+ * special handling for guild objects.
+ */
+class WoWGuildController extends DrupalDefaultEntityController {
+
+}

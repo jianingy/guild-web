@@ -1,0 +1,8 @@
+name = WoW Tooltip
+description = Add input filters to show items/characters tooltip.
+package = World of Warcraft
+core = 7.x
+
+dependencies[] = wow_core
+
+files[] = wow_tooltip.module

@@ -1,0 +1,62 @@
+<?php
+
+function wow_guild_schema() {
+  $schema['wow_guild'] = array(
+    'fields' => array(
+      'wgid' => array(
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+
+      'region' => array(
+        'type' => 'varchar',
+        'length' => 8,
+        'not null' => TRUE,
+        'default' => 'www',
+      ),
+      
+      'realm' => array(
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+
+      'name' => array(
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+      ),
+
+      'slogan' => array(
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+
+      'data' => array(
+        'type' => 'text',
+      ),
+
+      'created' => array(
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      )
+    ),
+
+    'primary key' => array('wgid'),
+
+    'indexes' => array(
+      'region' => array('region'),
+      'realm' => array('realm'),
+      'name' => array('name'),
+      'created' => array('created'),
+    ),
+  );
+
+  return $schema;
+}

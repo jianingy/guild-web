@@ -1,0 +1,53 @@
+<?php
+
+function wow_char_binder_init() {
+  $path = drupal_get_path('module', 'wow_char_binder');
+  drupal_add_css($path . '/wow_char_binder.css');
+}
+
+function wow_char_binder_theme() {
+  return array(
+    'wow_char_binder_user_chars_list' => array(
+      'variables' => array('chars' => NULL),
+      'file' => 'wow_char_binder.theme.inc',
+    ),
+  );
+}
+
+function wow_char_binder_permission() {
+  return array(
+    'view user wow chars' => array(
+      'title' => t('View user\'s bound WoW Characters'),
+    ),
+
+    'bind wow chars' => array(
+      'title' => t('Bind WoW Characters'),
+    ),
+  );
+}
+
+function wow_char_binder_menu() {
+  $items = array();
+
+  $items['user/%user/wow-chars'] = array(
+    'title' => 'WoW Chars',
+    'page callback' => 'wow_char_binder_user_chars_page',
+    'page arguments' => array(1),
+    'access arguments' => array('view user wow chars'),
+    'type' => MENU_LOCAL_TASK,
+    'file' => 'wow_char_binder.pages.inc',
+  );
+
+  return $items;
+}
+
+function wow_char_binder_user_load($users) {
+  $result = db_select('wow_char_binder', 'wcb')
+    ->fields('wcb')
+    ->condition('uid', array_keys($users), 'IN')
+    ->execute();
+
+  while ($row = $result->fetch()) {
+    $users[$row->uid]->wow_chars[] = $row;
+  }
+}

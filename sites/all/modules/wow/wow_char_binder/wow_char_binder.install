@@ -1,0 +1,67 @@
+<?php
+
+function wow_char_binder_schema() {
+  $schema['wow_char_binder'] = array(
+    'fields' => array(
+      'uid' => array(
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+
+      'region' => array(
+        'type' => 'varchar',
+        'length' => 8,
+        'not null' => TRUE,
+        'default' => 'www',
+      ),
+
+      'realm' => array(
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+
+      'name' => array(
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+
+      'data' => array(
+        'type' => 'text',
+      ),
+
+      'validated' => array(
+        'type' => 'int',
+        'length' => '1',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+
+      'updated' => array(
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+    ),
+
+    'unique' => array(
+      'uid' => array('uid'),
+      'char' => array('region', 'realm', 'name'),
+    ),
+
+    'indexes' => array(
+      'region' => array('region'),
+      'realm' => array('realm'),
+      'name' => array('name'),
+      'validated' => array('validated'),
+      'updated' => array('updated'),
+    ),
+  );
+
+  return $schema;
+}
+

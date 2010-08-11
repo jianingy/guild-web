@@ -1,0 +1,45 @@
+<?php
+
+function wow_tooltip_schema() {
+  $schema['wow_tooltip_items'] = array(
+    'description' => 'Cache item data from WoW Armory',
+    'fields' => array(
+      'id' => array(
+        'type'     => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default'  => 0,
+      ),
+
+      'name' => array(
+        'type'     => 'varchar',
+        'length'   => 255,
+        'not null' => TRUE,
+        'default'  => '',
+      ),
+
+      'tooltip' => array(
+        'type' => 'text',
+      ),
+
+      'updated' => array(
+        'type'     => 'int',
+        'not null' => TRUE,
+        'default'  => 0,
+      ),
+    ),
+
+    'unique keys' => array(
+      'id' => array('id'),
+    ),
+
+    'indexes' => array(
+      'item_name' => array('name'),
+      'item_updated' => array('updated'),
+    ),
+  );
+
+  return $schema;
+}
+      
+

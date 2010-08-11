@@ -1,0 +1,6 @@
+name = WoW Guild
+description = A guild in World of Warcraft
+package = World of Warcraft
+core = 7.x
+
+files[] = wow_guild.module

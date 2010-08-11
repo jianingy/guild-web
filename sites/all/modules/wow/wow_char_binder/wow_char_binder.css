@@ -1,0 +1,41 @@
+.chars-list .profile {
+  background: url('images/profile_bg_horde.jpg');
+  height: 106px;
+  position: relative;
+}
+
+.chars-list .profile .portrait {
+  position: absolute;
+  top: 17px;
+  left: 22px;
+}
+
+.chars-list .profile .level {
+  font: bold 24px/36px Georgia;
+  background: url('images/lvlbg_horde.png');
+  color: #FFF;
+  width: 37px;
+  height: 37px;
+  position: absolute;
+  top: 66px;
+  left: 35px;
+  text-align: center;
+}
+
+.chars-list .profile .name {
+  font-size: 24px;
+  font-weight: 700;
+  color: #FFF;
+  position: absolute;
+  top: 20px;
+  left: 116px;
+}
+
+.chars-list .profile .guild {
+  font-size: 16px;
+  font-weight: 400;
+  color: #FFD200;
+  position: absolute;
+  top: 62px;
+  left: 116px;
+}
